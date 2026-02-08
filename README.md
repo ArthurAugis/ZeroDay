@@ -51,7 +51,7 @@ Edit the `.env` file with your credentials:
 | `DB_USER` | Database User | Yes |
 | `DB_PASSWORD` | Database Password | Yes |
 | `DB_NAME` | Database Name | Yes |
-| `OPENCVE_USERNAME` | OpenCVE Username (Email) | No |
+| `OPENCVE_USERNAME` | OpenCVE Username (Email) | Yes |
 | `OPENCVE_PASSWORD` | OpenCVE Password | No |
 
 **OpenCVE Authentication Note:**
