@@ -1,57 +1,64 @@
-<div align="center">
-  <img src="assets/zeroday_banner.png" alt="ZeroDay" width="800" style="max-width: 100%;">
-  
-  # ZeroDay Security Bot
-  
-  **Your proactive guardian against CVEs and security threats on Discord.**
-  
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![Discord.js](https://img.shields.io/badge/discord.js-v14-blue.svg)](https://discord.js.org/)
-  [![Node.js](https://img.shields.io/badge/Node.js-v18+-green.svg)](https://nodejs.org/)
-</div>
+# ZeroDay Security Bot
 
----
+ZeroDay is a Discord bot designed to monitor Common Vulnerabilities and Exposures (CVEs) in real-time using the OpenCVE API. It alerts configured channels about new vulnerabilities based on severity and keywords.
 
-**ZeroDay** is an advanced open-source Discord bot designed to monitor security feeds (including CVEs and major security news) in real-time. It analyzes vulnerability reports and automatically alerts users who have subscribed to specific keywords (e.g., "Windows", "RCE", "PHP"), ensuring your team stays ahead of threats.
+## Features
 
+- Real-time CVE monitoring via OpenCVE API.
+- Discord alerts with CVSS scores and descriptions.
+- Keyword filtering for targeted alerts.
+- Support for Basic Authentication and OAuth workaround (OpenCVE).
+- Persistent storage using MySQL/MariaDB.
 
 ## Prerequisites
 
-- Node.js
-- MySQL Server (local or remote)
-- A Discord Bot created on the [Discord Developer Portal](https://discord.com/developers/applications)
+- Node.js >= 16.9.0
+- MySQL or MariaDB database
+- Discord Bot Token
 
 ## Installation
 
-1.  Install dependencies:
-    ```bash
-    npm install
-    ```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/zeroday-security-bot.git
+   cd zeroday-security-bot
+   ```
 
-2.  Configure environment:
-    - Rename or copy `.env` file and fill in the details:
-      - `DISCORD_TOKEN`: Your bot token.
-      - `CLIENT_ID`: Application ID (Client ID).
-      - `DB_...`: Your MySQL credentials.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-3.  Deploy commands (run once or after changing commands):
-    ```bash
-    npm run deploy
-    ```
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env
+   ```
 
-4.  Start the bot:
-    ```bash
-    npm start
-    ```
+4. Start the bot:
+   ```bash
+   npm start
+   ```
 
-## Usage
+## Configuration
 
-- `/setup [channel]`: Sets the channel where the bot will post alerts. (Admin only)
-- `/keywords add [keyword]`: Adds a keyword to your watchlist.
-- `/keywords remove [keyword]`: Removes a keyword.
-- `/keywords list`: Lists your keywords.
-- `/help`: Displays help information.
+Edit the `.env` file with your credentials:
 
-## How it works
+| Variable | Description | Required |
+| :--- | :--- | :--- |
+| `DISCORD_TOKEN` | Discord Bot Token | Yes |
+| `CLIENT_ID` | Discord Application ID | Yes |
+| `DB_HOST` | Database Host | Yes |
+| `DB_USER` | Database User | Yes |
+| `DB_PASSWORD` | Database Password | Yes |
+| `DB_NAME` | Database Name | Yes |
+| `OPENCVE_USERNAME` | OpenCVE Username (Email) | No |
+| `OPENCVE_PASSWORD` | OpenCVE Password | No |
 
-The bot periodically checks (every 5 minutes) a security RSS feed. If a new article contains one of your keywords (e.g., "injection", "windows", "php"), you will be pinged in the alert channel.
+**OpenCVE Authentication Note:**
+- For public API access (limited rate), leave `OPENCVE_USERNAME` and `OPENCVE_PASSWORD` empty.
+- For authenticated access (higher limits), provide your OpenCVE credentials.
+- If using Google OAuth, provide only `OPENCVE_USERNAME` (email) and leave password empty to attempt semi-authenticated requests where supported, or stick to no-auth mode.
+
+## License
+
+MIT License

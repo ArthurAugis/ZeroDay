@@ -1,5 +1,6 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
+const logger = require('./utils/logger');
 
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
@@ -7,26 +8,24 @@ const dbConfig = {
     password: process.env.DB_PASSWORD || '',
 };
 
+let pool = null;
+
 async function initializeDatabase() {
     try {
-        // Connect to MySQL server (without DB selected first)
         const connection = await mysql.createConnection(dbConfig);
         const dbName = process.env.DB_NAME || 'security_bot_db';
 
-        // Create database if not exists
         await connection.query(`CREATE DATABASE IF NOT EXISTS \`${dbName}\`;`);
         await connection.end();
 
-        // Now connect to the database
-        const pool = mysql.createPool({
+        const newPool = mysql.createPool({
             ...dbConfig,
             database: dbName,
             waitForConnections: true,
             connectionLimit: 10,
-            queueLimit: 0
+            queueLimit: 0,
         });
 
-        // Create tables
         const settingsTable = `
             CREATE TABLE IF NOT EXISTS guild_settings (
                 guild_id VARCHAR(255) PRIMARY KEY,
@@ -52,23 +51,17 @@ async function initializeDatabase() {
             );
         `;
 
-        await pool.query(settingsTable);
-        await pool.query(keywordsTable);
-        await pool.query(alertsTable);
+        await newPool.query(settingsTable);
+        await newPool.query(keywordsTable);
+        await newPool.query(alertsTable);
 
-        console.log('Database and tables initialized successfully.');
-        return pool;
+        logger.info('Database and tables initialized successfully.');
+        return newPool;
     } catch (error) {
-        console.error('Error initializing database:', error);
+        logger.error('Error initializing database:', error);
         process.exit(1);
     }
 }
-
-// Export a getter for the pool, initialized on first require if we wanted, 
-// but for async init pattern, we might need to export the pool promise or init function.
-// simpler: export the init function and a holder for the pool.
-
-let pool = null;
 
 module.exports = {
     getDb: async () => {
@@ -76,5 +69,5 @@ module.exports = {
             pool = await initializeDatabase();
         }
         return pool;
-    }
+    },
 };

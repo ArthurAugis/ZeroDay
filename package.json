@@ -3,11 +3,21 @@
   "version": "1.0.0",
   "description": "Real-time security vulnerability monitor and alert bot for Discord.",
   "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/zeroday-security-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/zeroday-security-bot/issues"
+  },
+  "homepage": "https://github.com/yourusername/zeroday-security-bot#readme",
   "scripts": {
     "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "deploy": "node src/deploy-commands.js",
     "lint": "eslint src/**/*.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:fix": "eslint src/**/*.js --fix",
+    "format": "prettier --write \"src/**/*.{js,json,md}\""
   },
   "keywords": [
     "discord",
@@ -15,7 +25,8 @@
     "security",
     "cve",
     "vulnerability",
-    "alert"
+    "alert",
+    "opencve"
   ],
   "author": "ZeroDay Team",
   "license": "MIT",
@@ -23,7 +34,13 @@
     "discord.js": "^14.11.0",
     "dotenv": "^16.0.3",
     "mysql2": "^3.0.0",
-    "rss-parser": "^3.12.0"
+    "winston": "^3.11.0"
   },
-  "dataType": "commonjs"
+  "devDependencies": {
+    "eslint": "^10.0.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "nodemon": "^3.1.11",
+    "prettier": "^3.8.1"
+  }
 }
