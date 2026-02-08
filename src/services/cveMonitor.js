@@ -7,25 +7,23 @@ const OPENCVE_USERNAME = process.env.OPENCVE_USERNAME || '';
 const OPENCVE_PASSWORD = process.env.OPENCVE_PASSWORD || '';
 
 async function checkCVEs(client) {
+    if (!OPENCVE_USERNAME || !OPENCVE_PASSWORD) {
+        logger.error(
+            'OpenCVE credentials are required. Please configure OPENCVE_USERNAME and OPENCVE_PASSWORD in .env'
+        );
+        return;
+    }
+
     try {
         const db = await getDb();
-        const headers = { Accept: 'application/json' };
+        const auth = Buffer.from(
+            `${OPENCVE_USERNAME}:${OPENCVE_PASSWORD}`
+        ).toString('base64');
 
-        if (OPENCVE_USERNAME && OPENCVE_PASSWORD) {
-            const auth = Buffer.from(
-                `${OPENCVE_USERNAME}:${OPENCVE_PASSWORD}`
-            ).toString('base64');
-            headers['Authorization'] = `Basic ${auth}`;
-            logger.debug('Using OpenCVE with Basic Authentication');
-        } else if (OPENCVE_USERNAME) {
-            logger.warn(
-                'OpenCVE username provided but no password. Trying without authentication...'
-            );
-        } else {
-            logger.info(
-                'No OpenCVE authentication configured. Using API without auth (limited access).'
-            );
-        }
+        const headers = {
+            Accept: 'application/json',
+            Authorization: `Basic ${auth}`,
+        };
 
         const response = await fetch(OPENCVE_API_URL, { headers });
 
