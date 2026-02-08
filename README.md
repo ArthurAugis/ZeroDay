@@ -7,7 +7,7 @@ ZeroDay is a Discord bot designed to monitor Common Vulnerabilities and Exposure
 - Real-time CVE monitoring via OpenCVE API.
 - Discord alerts with CVSS scores and descriptions.
 - Keyword filtering for targeted alerts.
-- Support for Basic Authentication and OAuth workaround (OpenCVE).
+- Authenticated access to OpenCVE.
 - Persistent storage using MySQL/MariaDB.
 
 ## Prerequisites
@@ -15,6 +15,7 @@ ZeroDay is a Discord bot designed to monitor Common Vulnerabilities and Exposure
 - Node.js >= 16.9.0
 - MySQL or MariaDB database
 - Discord Bot Token
+- OpenCVE Account (Username/Password)
 
 ## Installation
 
@@ -51,13 +52,8 @@ Edit the `.env` file with your credentials:
 | `DB_USER` | Database User | Yes |
 | `DB_PASSWORD` | Database Password | Yes |
 | `DB_NAME` | Database Name | Yes |
-| `OPENCVE_USERNAME` | OpenCVE Username (Email) | No |
-| `OPENCVE_PASSWORD` | OpenCVE Password | No |
-
-**OpenCVE Authentication Note:**
-- For public API access (limited rate), leave `OPENCVE_USERNAME` and `OPENCVE_PASSWORD` empty.
-- For authenticated access (higher limits), provide your OpenCVE credentials.
-- If using Google OAuth, provide only `OPENCVE_USERNAME` (email) and leave password empty to attempt semi-authenticated requests where supported, or stick to no-auth mode.
+| `OPENCVE_USERNAME` | OpenCVE Username | Yes |
+| `OPENCVE_PASSWORD` | OpenCVE Password | Yes |
 
 ## License
 
