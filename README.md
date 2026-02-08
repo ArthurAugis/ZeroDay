@@ -54,6 +54,7 @@ Edit the `.env` file with your credentials:
 | `DB_NAME` | Database Name | Yes |
 | `OPENCVE_USERNAME` | OpenCVE Username | Yes |
 | `OPENCVE_PASSWORD` | OpenCVE Password | Yes |
+E` (email) and leave password empty to attempt semi-authenticated requests where supported, or stick to no-auth mode.
 
 ## License
 
